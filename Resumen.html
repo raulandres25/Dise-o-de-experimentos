@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Resumen Base de datos Concentración Clorofila</title>
+
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Resumen Base de datos Concentración Clorofila</h1>
+
+</div>
+
+
+<div id="introducción" class="section level2">
+<h2>Introducción</h2>
+<p>A continuación se realizara un breve analisis exploratorio de la base de datos de concentracion de clorofila extraida de la cascacara y pulpa de la guayaba, se pretende explicar si el peso de la guayaba y la zona de extraccion influyen en la concentración de clorofila. Para la investigacion realizaremos un experimento a una via, donde la variable respuesta es XXX</p>
+<img src="Resumen_files/figure-html/plot-1.png" width="672" /> <br><br><br>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+variedad
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:right;">
+media
+</th>
+<th style="text-align:right;">
+mediana
+</th>
+<th style="text-align:right;">
+per_25
+</th>
+<th style="text-align:right;">
+per_75
+</th>
+<th style="text-align:right;">
+maximo
+</th>
+<th style="text-align:right;">
+minimo
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+GV
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+64.48043
+</td>
+<td style="text-align:right;">
+34.63602
+</td>
+<td style="text-align:right;">
+24.356553
+</td>
+<td style="text-align:right;">
+55.93094
+</td>
+<td style="text-align:right;">
+282.82344
+</td>
+<td style="text-align:right;">
+6.552466
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+33.58378
+</td>
+<td style="text-align:right;">
+30.11467
+</td>
+<td style="text-align:right;">
+24.188186
+</td>
+<td style="text-align:right;">
+41.63622
+</td>
+<td style="text-align:right;">
+60.75942
+</td>
+<td style="text-align:right;">
+12.415042
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+111.03133
+</td>
+<td style="text-align:right;">
+100.25762
+</td>
+<td style="text-align:right;">
+87.190530
+</td>
+<td style="text-align:right;">
+150.51290
+</td>
+<td style="text-align:right;">
+202.44811
+</td>
+<td style="text-align:right;">
+16.108927
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RR
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+10.05906
+</td>
+<td style="text-align:right;">
+8.76384
+</td>
+<td style="text-align:right;">
+7.143979
+</td>
+<td style="text-align:right;">
+11.67892
+</td>
+<td style="text-align:right;">
+16.68763
+</td>
+<td style="text-align:right;">
+6.020942
+</td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+<img src="Resumen_files/figure-html/unnamed-chunk-2-1.png" width="672" /> <br><br><br>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+corte
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:right;">
+media
+</th>
+<th style="text-align:right;">
+mediana
+</th>
+<th style="text-align:right;">
+per_25
+</th>
+<th style="text-align:right;">
+per_75
+</th>
+<th style="text-align:right;">
+maximo
+</th>
+<th style="text-align:right;">
+minimo
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+CÁSCARA
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+90.40336
+</td>
+<td style="text-align:right;">
+75.60984
+</td>
+<td style="text-align:right;">
+28.77656
+</td>
+<td style="text-align:right;">
+106.69727
+</td>
+<td style="text-align:right;">
+282.8234
+</td>
+<td style="text-align:right;">
+7.518325
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PULPA
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+45.57377
+</td>
+<td style="text-align:right;">
+27.35511
+</td>
+<td style="text-align:right;">
+21.67179
+</td>
+<td style="text-align:right;">
+53.77746
+</td>
+<td style="text-align:right;">
+190.5722
+</td>
+<td style="text-align:right;">
+6.020942
+</td>
+</tr>
+</tbody>
+</table>
+<img src="Resumen_files/figure-html/unnamed-chunk-4-1.png" width="672" /> <br><br><br>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+LOCALIDAD
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:right;">
+media
+</th>
+<th style="text-align:right;">
+mediana
+</th>
+<th style="text-align:right;">
+per_25
+</th>
+<th style="text-align:right;">
+per_75
+</th>
+<th style="text-align:right;">
+maximo
+</th>
+<th style="text-align:right;">
+minimo
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BARBOSA
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+55.16188
+</td>
+<td style="text-align:right;">
+28.79098
+</td>
+<td style="text-align:right;">
+17.54247
+</td>
+<td style="text-align:right;">
+90.46026
+</td>
+<td style="text-align:right;">
+202.44811
+</td>
+<td style="text-align:right;">
+6.020942
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PN
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+35.97883
+</td>
+<td style="text-align:right;">
+34.41801
+</td>
+<td style="text-align:right;">
+27.39517
+</td>
+<td style="text-align:right;">
+41.39698
+</td>
+<td style="text-align:right;">
+60.75942
+</td>
+<td style="text-align:right;">
+17.500000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VELEZ
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+145.47401
+</td>
+<td style="text-align:right;">
+135.39081
+</td>
+<td style="text-align:right;">
+56.20329
+</td>
+<td style="text-align:right;">
+210.82085
+</td>
+<td style="text-align:right;">
+282.82344
+</td>
+<td style="text-align:right;">
+53.467359
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

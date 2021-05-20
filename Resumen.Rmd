@@ -1,0 +1,98 @@
+---
+title: "Resumen Base de datos Concentración Clorofila"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r librerias, include=FALSE, echo=FALSE}
+
+library(openxlsx)
+library(tidyverse)
+library(ggplot2)
+library(wesanderson)
+library(gridExtra)
+library(knitr)
+library(kableExtra)
+options(scipen = 999)
+
+datos=openxlsx::read.xlsx("CONTENIDO DE CLOROFILAS.xlsx",sheet = "DATOS" )
+#Boxplot de los datos por material
+
+datos=datos %>% mutate(variedad=str_sub(MATERIAL,1,2),
+                       corte=str_sub(MATERIAL,6,12),
+                       peso=as.numeric(`PESO_(µg)`))
+
+p1=ggplot(datos, aes(x=variedad,y=Clorofila_total,fill=variedad))+
+  geom_boxplot()+facet_wrap(~variedad, scales="free")+scale_fill_brewer(palette = "Paired")+
+  ggtitle("Boxplot de la clorofila por variedad")
+
+
+p2=ggplot(datos, aes(x=LOCALIDAD,y=Clorofila_total,fill=LOCALIDAD))+
+  geom_boxplot()+facet_wrap(~LOCALIDAD, scales="free")+scale_fill_brewer(palette = "Paired")+
+  ggtitle("Boxplot de la clorofila por Localidad")
+
+
+p3=ggplot(datos, aes(x=corte,y=Clorofila_total,fill=corte))+
+  geom_boxplot()+facet_wrap(~corte, scales="free")+scale_fill_brewer(palette = "Paired")+
+  ggtitle("Boxplot de la clorofila por corte")
+
+
+```
+## Introducción
+
+A continuación se realizara un breve analisis exploratorio de la base de datos de concentracion de clorofila extraida de la cascacara y pulpa de la guayaba, se pretende explicar si el peso de la guayaba y la zona de extraccion influyen en la concentración de clorofila. Para la investigacion realizaremos un experimento a una via, donde la variable respuesta es XXX
+
+
+```{r plot, echo=FALSE}
+p1
+
+```
+<br><br><br>
+```{r, echo=FALSE}
+datos %>% group_by(variedad) %>% 
+  dplyr::summarise(N=n(),media=mean(Clorofila_total),mediana=median(Clorofila_total),
+                   per_25=quantile(Clorofila_total, c(0.25)),
+                   per_75=quantile(Clorofila_total, c(0.75)),
+                   maximo=max(Clorofila_total),
+                   minimo=min(Clorofila_total)) %>% 
+                  kable() %>%
+                  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+<br><br><br>
+
+
+```{r,echo=FALSE}
+p3
+
+```
+<br><br><br>
+```{r, echo=FALSE}
+datos %>% group_by(corte) %>% 
+  dplyr::summarise(N=n(),media=mean(Clorofila_total),mediana=median(Clorofila_total),
+                   per_25=quantile(Clorofila_total, c(0.25)),
+                   per_75=quantile(Clorofila_total, c(0.75)),
+                   maximo=max(Clorofila_total),
+                   minimo=min(Clorofila_total)) %>% 
+                  kable() %>%
+                  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+
+```{r,echo=FALSE}
+p2
+
+```
+<br><br><br>
+```{r, echo=FALSE}
+datos %>% group_by(LOCALIDAD) %>% 
+  dplyr::summarise(N=n(),media=mean(Clorofila_total),mediana=median(Clorofila_total),
+                   per_25=quantile(Clorofila_total, c(0.25)),
+                   per_75=quantile(Clorofila_total, c(0.75)),
+                   maximo=max(Clorofila_total),
+                   minimo=min(Clorofila_total)) %>% 
+                  kable() %>%
+                  kable_styling(bootstrap_options = "striped", full_width = F)
+```
